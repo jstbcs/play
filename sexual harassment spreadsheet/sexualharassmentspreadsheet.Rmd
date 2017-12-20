@@ -1,0 +1,77 @@
+---
+title: "Analyzing Sexual Harassment Spreadsheet"
+author: "Julia Haaf"
+date: "December 20, 2017"
+output: html_document
+---
+
+Recently, a [spreadsheet showing sexual harassment experiences](https://docs.google.com/spreadsheets/d/1S9KShDLvU7C-KkgEevYTHXr3F6InTenrBsS9yk-8C5M/edit#gid=1530077352) in academia was published. The spreadsheed has now a lot of entries from mostly women in different academic fields. I wanted to take a look.
+
+```{r}
+require("gsheet")
+url <- 'https://docs.google.com/spreadsheets/d/1S9KShDLvU7C-KkgEevYTHXr3F6InTenrBsS9yk-8C5M'
+a <- gsheet2tbl(url)
+dim(a)
+
+#remove empty rows (i.e. rows with only timestamp and maybe one more entry)
+empty <- rowSums(is.na(a)) > 12
+dat <- subset(a, !empty)
+```
+
+```{r}
+colnames(dat)
+
+#shorter colnames
+newnames <- c("timestamp", "whatwhen", "ownstatus", "otherstatus"
+              , "institutiontype", "institutionname", "dicipline"
+              , "gender", "response", "consequence"
+              , "impactcareer", "impacthealth", "impactlife"
+              , "comments", "genderother")
+colnames(dat) <- newnames
+
+par(mar = c(7.1, 3, 3, 3))
+tab.dicipline <- sort(table(dat$dicipline), decreasing = T)
+barplot(tab.dicipline[1:15], las = 2)
+text(15, 140, paste("Total entries:", nrow(dat)))
+```
+
+```{r gender, fig.height=6, fig.width=6}
+tab.genderother <- sort(table(dat$genderother), decreasing = T)
+labs <- labels(tab.genderother)[[1]]
+labs[3:4] <- c("Varying", "Unsure")
+
+par(mar = c(15.1, 3, 3, 3))
+barplot(tab.genderother[1:15], las = 2, names.arg = labs[1:15]
+        , main = "Gender of Harasser")
+text(15, 1500, paste("Total entries:", nrow(dat)))
+```
+
+```{r institution, fig.height=6, fig.width=6}
+tab.institutiontype <- sort(table(dat$institutiontype), decreasing = T)
+labs <- labels(tab.institutiontype)[[1]]
+labs[6] <- c("More Than One Institution")
+
+
+par(mar = c(12.1, 3, 3, 3))
+barplot(tab.institutiontype, las = 2, names.arg = labs)
+text(7, 600, paste("Total entries:", nrow(dat)))
+```
+
+
+The most frustrationg graph: 
+
+```{r consequence, fig.height=8, fig.width=8}
+tab.consequence <- sort(table(dat$consequence), decreasing = T)
+
+# layout(matrix(c(1,1,2,2,0,3,3,0), byrow = T, ncol = 4))
+par(mar = c(12.1, 3, 3, 3))
+# barplot(tab.consequence[1:10], las = 2, cex.names = 1.2, main = "Institutional/Career Consequences for the Harasser")
+# text(9, 380, paste("Total entries:", nrow(dat)), cex = 1.2)
+
+barplot(tab.consequence[1:20], las = 2, cex.names = 1.2, main = "Institutional/Career Consequences for the Harasser")
+text(19, 380, paste("Total entries:", nrow(dat)), cex = 1.2)
+
+# barplot(tab.consequence[1:20], las = 2)
+# text(19, 380, paste("Total entries:", nrow(dat)))
+```
+
