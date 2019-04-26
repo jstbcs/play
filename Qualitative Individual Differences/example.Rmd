@@ -40,7 +40,7 @@ colnames(dat) <- c('sub', 'cond', 'rt')
 Now, let's apply the qualitative individual differences test using the function `quid()`. The function can be sourced from this github repository using `curl()`
 
 ```{r source-quid}
-filename <- curl::curl("https://raw.githubusercontent.com/jstbcs/play/master/Qualitative%20Individual%20Differences/quid.R")
+filename <- curl::curl("https://raw.githubusercontent.com/jstbcs/play/7288a543f1bbab494f2e939a6bda1f077b84c2a7/Qualitative%20Individual%20Differences/quid.R")
 source(filename)
 ```
 
@@ -56,6 +56,7 @@ Other arguments that can be changed are:
 - expect = list(lower = 1, higher = 2) (which value of condition represents the condition with the expected higher values, and lower values)
 - iter = 10000 (number of iterations for the posterior sampling)
 - burnin = 1000 (number of to be discarded burn-in iterations)
+- messages = TRUE (suppresses messages if FALSE)
 
 Here the function is called using the Stroop data loaded above.
 

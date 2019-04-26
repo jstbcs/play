@@ -136,7 +136,7 @@ make.bf <- function(y, meanScale, effectScale, prep = prep.1, iter = 10000, burn
               , posterior.mean = new.mean, posterior.sd = new.sd
               , bfs = c(bf.1u = 1/ bf.F1, bf.pu =  1/ bf.FP, bf.0u = 1 / bf.F0)
               , bf.unconstrained = bf.full, bf.common = bf.one, bf.null = bf.null
-              , mcmc.unconstrained = mcmc.full, mcmc.one = mcmc.one
+              , mcmc.unconstrained = mcmc.full[keep, ], mcmc.one = mcmc.one[keep, ]
               , prior.prob = PriorCount, posterior.prob = PostCount
               , design.matrices = prep))
 }
@@ -148,9 +148,10 @@ quid <- function(id #vector with participant ID, can be a factor or numeric
                  , expect = list(lower = 1, higher = 2) #which value of condition represents the condition with the expected higher values, and lower values
                  , iter = 10000 #number of iterations for the posterior sampling
                  , burnin = 1000 #number of to be discarded burn-in iterations
+                 , messages = TRUE
                  ){
   
-  require(BayesFactor)
+  require(BayesFactor, quietly = messages)
   
   if(!(is.numeric(condition) | is.factor(condition))) stop("Condition has to be numeric or a factor.")
   if(!(is.numeric(id) | is.factor(id))) stop("Id has to be numeric or a factor.")
