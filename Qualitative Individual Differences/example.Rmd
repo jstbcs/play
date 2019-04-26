@@ -77,3 +77,5 @@ res$bfs
 plot(sort(res$ind.effects), pch = 19, ylab = expression(theta[i] ~ "(in seconds)"))
 ```
 
+The estimated overall effect is `r round(res$posterior.mean * 1000)` ms, and individual effects vary with a standard deviation of `r round(res$posterior.sd * 1000)` ms around that mean. The positive-effects model is preferred with a Bayes factor of `r round(res$bfs["bf.pu"], 2)` to 1 over the unconstrained model indicating evidence that all individuals' effects are truly positive.   
+

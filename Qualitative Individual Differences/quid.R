@@ -167,5 +167,5 @@ quid <- function(id #vector with participant ID, can be a factor or numeric
   prep.1 <- prep.models(id = sub, fcond = fcond, expect = expect)
   
   # get bayes factors
-  make.bf(y = y, meanScale = prior[1], effectScale = prior[2], prep = prep.1, iter = iter, burnin = burnin)
+  make.bf(y = rt, meanScale = prior[1], effectScale = prior[2], prep = prep.1, iter = iter, burnin = burnin)
 }
