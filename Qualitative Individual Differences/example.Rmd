@@ -1,0 +1,50 @@
+---
+title: "Example"
+author: "Julia Haaf"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Qualitative Individual Differences
+
+For my dissertation I developed a model comparison approach to assess individual differences in simple cognitive tasks. This development is published in Haaf & Rouder (2017, Psych Methods). Here, I want to provide a function for the *Does everyone t-test*. The idea is if you have such a simple cognitive task with response time data from many trials per participant in two conditions, you can use the function to test whether everyone has an effect in the same, expected direction, or whether individuals truly and qualitatively vary in their effect.
+
+## Data Example
+
+Here, let's use a Stroop data example. The data are from Von Bastian et al. (2015, JEP:General) who conducted a STroop task with 121 participants. The data are open and available at a github repository, and they can be sources using `curl()`. Here, the data are loaded and cleaned:
+
+```{r data}
+library(curl)
+
+filename <- curl::curl("https://raw.githubusercontent.com/PerceptionCognitionLab/data0/master/contexteffects/FlankerStroopSimon/LEF_stroop.csv")
+stroop <- read.csv2(filename, header=TRUE, dec=".")
+
+stroop$cond <- as.numeric(stroop$congruency)  #congruent -> 1, incongruent -> 2, neutral -> 3
+ntrial <- length(stroop[stroop$ID == stroop$ID[1], 1])
+nsub <- length(unique(stroop$ID))
+stroop$trial <- rep(1:ntrial, nsub)
+stroop$rt <- stroop$RT/1000 #rt data in seconds, not necessary
+
+stroop <- stroop[stroop$rt > .2 & stroop$rt < 2, ]
+stroop <- subset(stroop, accuracy == 1 & cond != 3) # the critical contrast is between congruent and incongruent
+
+dat <- data.frame(stroop$ID, stroop$cond, stroop$rt)
+colnames(dat) <- c('sub', 'cond', 'rt')
+```
+
+## QUID Test
+
+Now, let's apply the qualitative individual differences test using the function `quid()`. The function can be sourced from this github repository using `curl()`
+
+```{r source-quid}
+
+```
+
+
+```{r}
+res <- quid(id = dat$sub, condition = dat$cond, rt = dat$rt)
+```
+
