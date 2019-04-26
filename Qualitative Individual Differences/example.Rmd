@@ -40,7 +40,7 @@ colnames(dat) <- c('sub', 'cond', 'rt')
 Now, let's apply the qualitative individual differences test using the function `quid()`. The function can be sourced from this github repository using `curl()`
 
 ```{r source-quid}
-filename <- curl::curl("https://raw.githubusercontent.com/jstbcs/play/e4c7bee0d9a6b01d12f7416b649c642660b3d1cb/Qualitative%20Individual%20Differences/quid.R")
+filename <- curl::curl("https://raw.githubusercontent.com/jstbcs/play/master/Qualitative%20Individual%20Differences/quid.R")
 source(filename)
 ```
 
