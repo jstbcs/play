@@ -40,7 +40,7 @@ colnames(dat) <- c('sub', 'cond', 'rt')
 Now, let's apply the qualitative individual differences test using the function `quid()`. The function can be sourced from this github repository using `curl()`
 
 ```{r source-quid}
-filename <- curl::curl("https://raw.githubusercontent.com/jstbcs/play/7288a543f1bbab494f2e939a6bda1f077b84c2a7/Qualitative%20Individual%20Differences/quid.R")
+filename <- curl::curl("https://raw.githubusercontent.com/jstbcs/play/e4c7bee0d9a6b01d12f7416b649c642660b3d1cb/Qualitative%20Individual%20Differences/quid.R")
 source(filename)
 ```
 
@@ -76,6 +76,7 @@ res$bfs
 
 ```{r}
 plot(sort(res$ind.effects), pch = 19, ylab = expression(theta[i] ~ "(in seconds)"))
+abline(h = res$posterior.mean)
 ```
 
 The estimated overall effect is `r round(res$posterior.mean * 1000)` ms, and individual effects vary with a standard deviation of `r round(res$posterior.sd * 1000)` ms around that mean. The positive-effects model is preferred with a Bayes factor of `r round(res$bfs["bf.pu"], 2)` to 1 over the unconstrained model indicating evidence that all individuals' effects are truly positive.   

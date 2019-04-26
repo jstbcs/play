@@ -135,6 +135,7 @@ make.bf <- function(y, meanScale, effectScale, prep = prep.1, iter = 10000, burn
   return(list(ind.effects = m
               , posterior.mean = new.mean, posterior.sd = new.sd
               , bfs = c(bf.1u = 1/ bf.F1, bf.pu =  1/ bf.FP, bf.0u = 1 / bf.F0)
+              , theta = myTheta
               , bf.unconstrained = bf.full, bf.common = bf.one, bf.null = bf.null
               , mcmc.unconstrained = mcmc.full[keep, ], mcmc.one = mcmc.one[keep, ]
               , prior.prob = PriorCount, posterior.prob = PostCount
