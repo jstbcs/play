@@ -40,11 +40,40 @@ colnames(dat) <- c('sub', 'cond', 'rt')
 Now, let's apply the qualitative individual differences test using the function `quid()`. The function can be sourced from this github repository using `curl()`
 
 ```{r source-quid}
-
+filename <- curl::curl("https://raw.githubusercontent.com/jstbcs/play/master/Qualitative%20Individual%20Differences/quid.R")
+source(filename)
 ```
 
+To use `quid()` you need three vectors containing:
+
+1. an indicator of the participant (id = Participant ID)
+2. an indicator of the condition (condition = two conditions)
+3. the response times for each trial (rt)
+
+Other arguments that can be changed are:
+
+- prior = c(1/6, 1/10) (prior scale settings for the standard deviation of the overall effect and the individual effects)
+- expect = list(lower = 1, higher = 2) (which value of condition represents the condition with the expected higher values, and lower values)
+- iter = 10000 (number of iterations for the posterior sampling)
+- burnin = 1000 (number of to be discarded burn-in iterations)
+
+Here the function is called using the Stroop data loaded above.
 
 ```{r}
 res <- quid(id = dat$sub, condition = dat$cond, rt = dat$rt)
+```
+
+The object `res()` contains the Bayes factors, estimates from the unconstrained model for each individuals' effect, some mcmc objects that can be used for inspection and plotting, etc. Here is how it can be accessed.
+
+- Bayes factors
+
+```{r}
+res$bfs
+```
+
+- Individuals' effects
+
+```{r}
+plot(sort(res$ind.effects), pch = 19, ylab = expression(theta[i] ~ "(in seconds)"))
 ```
 

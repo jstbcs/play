@@ -132,12 +132,13 @@ make.bf <- function(y, meanScale, effectScale, prep = prep.1, iter = 10000, burn
   new.mean <- mean(mcmc.full[keep, i.theta0])
   # i.g3 <- 2 * prep$I + 6
   # new.pop.sd <- mean(mcmc.full[keep, i.g3])
-  return(list(posterior.mean = new.mean, posterior.sd = new.sd
+  return(list(ind.effects = m
+              , posterior.mean = new.mean, posterior.sd = new.sd
               , bfs = c(bf.1u = 1/ bf.F1, bf.pu =  1/ bf.FP, bf.0u = 1 / bf.F0)
               , bf.unconstrained = bf.full, bf.common = bf.one, bf.null = bf.null
               , mcmc.unconstrained = mcmc.full, mcmc.one = mcmc.one
               , prior.prob = PriorCount, posterior.prob = PostCount
-              , prep))
+              , design.matrices = prep))
 }
 
 quid <- function(id #vector with participant ID, can be a factor or numeric
